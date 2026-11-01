@@ -1,0 +1,278 @@
+<article class="dossier" [class]="flood()" [class.is-page]="mode() === 'page'">
+  <header class="plate">
+    @if (detail.hasValue() && detail.value().nameJa; as _) {
+    <p
+      class="kana"
+      lang="ja"
+      aria-hidden="true"
+      [style.--n]="detail.value().nameJa.length"
+    >
+      {{ detail.value().nameJa }}
+    </p>
+    } @if (mode() === 'page') {
+    <a class="back" routerLink="/search">All Pokémon</a>
+    } @if (id()) {
+    <div
+      class="sticker"
+      [class.flipping]="flipping()"
+      [class.crying]="crying()"
+    >
+      <img
+        class="diecut"
+        [src]="art()"
+        [alt]="shiny() ? 'Shiny ' + name() : name()"
+        width="475"
+        height="475"
+        [style.view-transition-name]="mode() === 'overlay' ? 'sd-art' : null"
+      />
+    </div>
+    }
+
+    <div class="identity">
+      @if (mode() === 'page') {
+      <h1 [style.--len]="name().length">{{ name() }}</h1>
+      } @else {
+      <h2 id="dossier-name" [style.--len]="name().length">{{ name() }}</h2>
+      }
+      <p class="sub">
+        {{ number() }} @if (detail.hasValue()) {{{ detail.value().genus }}}
+      </p>
+      <div class="types">
+        @for (type of types(); track type) {
+        <sd-type-tag [type]="type" />
+        }
+      </div>
+      @if (detail.hasValue()) {
+      <div class="actions">
+        @if (detail.value().cry; as cry) {
+        <button type="button" (click)="playCry(cry)">Play cry</button>
+        }
+        <button
+          type="button"
+          [attr.aria-pressed]="shiny()"
+          (click)="toggleShiny()"
+        >
+          Shiny
+        </button>
+      </div>
+      @if (cryFailed()) {
+      <p class="cry-failed" role="status">This browser can't play the cry</p>
+      } }
+    </div>
+  </header>
+
+  <div class="info">
+    @if (detail.error() && !detail.hasValue()) {
+    <div class="missing">
+      <h2>No Pokémon called “{{ slug() }}”</h2>
+      <a routerLink="/search">Search Pokémon</a>
+    </div>
+    } @else if (detail.hasValue()) { @let p = detail.value();
+    <div class="reveal">
+      <p class="flavor">{{ p.flavor }}</p>
+
+      <section aria-labelledby="stats-h">
+        <h3 id="stats-h">Base stats</h3>
+        <dl class="stats">
+          @for (stat of p.stats; track stat.key; let i = $index) {
+          <div>
+            <dt>{{ stat.label }}</dt>
+            <dd>
+              <span class="value">{{ stat.value }}</span>
+              <span class="track"
+                ><span
+                  class="bar"
+                  [style.--w]="barWidth(stat.value)"
+                  [style.--i]="i"
+                ></span
+              ></span>
+            </dd>
+          </div>
+          }
+          <div class="total">
+            <dt>Total</dt>
+            <dd><span class="value">{{ p.statTotal }}</span></dd>
+          </div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="abilities-h">
+        <h3 id="abilities-h">Abilities</h3>
+        <ul class="abilities">
+          @for (ability of p.abilities; track ability.name) {
+          <li>
+            <strong>{{ ability.name }}@if (ability.hidden) { (hidden)}</strong>
+            <p>{{ ability.effect }}</p>
+          </li>
+          }
+        </ul>
+      </section>
+
+      @if (p.evolution.length > 1) {
+      <section aria-labelledby="evolution-h">
+        <h3 id="evolution-h">Evolution</h3>
+        <ol class="evolution">
+          @for (stage of p.evolution; track $index) {
+          <li class="stage">
+            @for (step of stage; track step.id) { @if (mode() === 'overlay') {
+            <a
+              class="step"
+              [class.current]="step.slug === p.slug"
+              [href]="'/pokemon/' + step.slug"
+              (click)="openEvolution($event, step.slug)"
+              [attr.aria-current]="step.slug === p.slug ? 'true' : null"
+            >
+              <img
+                class="diecut"
+                [src]="artFor(step.id)"
+                alt=""
+                width="475"
+                height="475"
+                loading="lazy"
+              />
+              <strong>{{ step.name }}</strong>
+              @if (step.how) { <small>{{ step.how }}</small> }
+            </a>
+            } @else {
+            <a
+              class="step"
+              [class.current]="step.slug === p.slug"
+              [routerLink]="['/pokemon', step.slug]"
+              [attr.aria-current]="step.slug === p.slug ? 'true' : null"
+            >
+              <img
+                class="diecut"
+                [src]="artFor(step.id)"
+                alt=""
+                width="475"
+                height="475"
+                loading="lazy"
+              />
+              <strong>{{ step.name }}</strong>
+              @if (step.how) { <small>{{ step.how }}</small> }
+            </a>
+            } }
+          </li>
+          }
+        </ol>
+      </section>
+      }
+
+      <section aria-labelledby="matchups-h">
+        <h3 id="matchups-h">Damage taken</h3>
+        <dl class="matchups">
+          @if (p.weakTo.length) {
+          <div>
+            <dt>Weak to</dt>
+            <dd>
+              @for (m of p.weakTo; track m.type) {
+              <span class="match" [class]="'flood-' + m.type"
+                >{{ m.type }} ×{{ m.multiplier }}</span
+              >
+              }
+            </dd>
+          </div>
+          } @if (p.resists.length) {
+          <div>
+            <dt>Resists</dt>
+            <dd>
+              @for (m of p.resists; track m.type) {
+              <span class="match" [class]="'flood-' + m.type"
+                >{{ m.type }} ×{{ m.multiplier }}</span
+              >
+              }
+            </dd>
+          </div>
+          } @if (p.immuneTo.length) {
+          <div>
+            <dt>Immune to</dt>
+            <dd>
+              @for (t of p.immuneTo; track t) {
+              <span class="match" [class]="'flood-' + t">{{ t }}</span>
+              }
+            </dd>
+          </div>
+          }
+        </dl>
+      </section>
+
+      <section aria-labelledby="profile-h">
+        <h3 id="profile-h">Profile</h3>
+        <dl class="profile">
+          <div>
+            <dt>Height</dt>
+            <dd>{{ p.heightM }} m</dd>
+          </div>
+          <div>
+            <dt>Weight</dt>
+            <dd>{{ p.weightKg }} kg</dd>
+          </div>
+          <div>
+            <dt>Region</dt>
+            <dd>{{ p.generation }}</dd>
+          </div>
+          <div>
+            <dt>Colour</dt>
+            <dd>{{ p.color }}</dd>
+          </div>
+          @if (p.habitat) {
+          <div>
+            <dt>Habitat</dt>
+            <dd>{{ p.habitat }}</dd>
+          </div>
+          } @if (p.shape) {
+          <div>
+            <dt>Shape</dt>
+            <dd>{{ p.shape }}</dd>
+          </div>
+          }
+          <div>
+            <dt>Gender</dt>
+            <dd>{{ femaleLabel() }}</dd>
+          </div>
+          <div>
+            <dt>Capture rate</dt>
+            <dd>{{ p.captureRate }}</dd>
+          </div>
+          <div>
+            <dt>Egg groups</dt>
+            <dd>{{ p.eggGroups.join(', ') }}</dd>
+          </div>
+          @if (p.rarity) {
+          <div>
+            <dt>Rarity</dt>
+            <dd class="cap">{{ p.rarity }}</dd>
+          </div>
+          }
+        </dl>
+      </section>
+
+      @if (p.forms.length) {
+      <section aria-labelledby="forms-h">
+        <h3 id="forms-h">Other forms</h3>
+        <ul class="forms">
+          @for (form of p.forms; track form.id) {
+          <li>
+            <img
+              class="diecut"
+              [src]="artFor(form.id)"
+              alt=""
+              width="475"
+              height="475"
+              loading="lazy"
+            />
+            <span>{{ form.name }}</span>
+          </li>
+          }
+        </ul>
+      </section>
+      }
+    </div>
+    } @else {
+    <div class="skeleton" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p class="visually-hidden" role="status">Loading</p>
+    }
+  </div>
+</article>

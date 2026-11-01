@@ -1,0 +1,449 @@
+:host {
+  display: block;
+  container-type: inline-size;
+  --flood: var(--print);
+  --on: var(--seal);
+}
+
+.dossier {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  height: 100%;
+}
+
+/* ---------- Plate: the Pokémon's own colour ---------- */
+
+.plate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem 1.75rem 1.75rem;
+  overflow: hidden;
+  background: var(--flood);
+  color: var(--on);
+}
+
+.kana {
+  --size: min(calc(46rem / max(var(--n), 3) * 0.96), 16rem);
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+  font: 400 var(--size)/1 var(--display);
+  color: var(--overprint);
+  writing-mode: vertical-rl;
+  user-select: none;
+  white-space: nowrap;
+  animation: kana-in 0.5s ease-out 0.1s both;
+}
+@keyframes kana-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+.sticker {
+  --cut: 5px;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+}
+.sticker img {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 24rem;
+  object-fit: contain;
+}
+.sticker.flipping {
+  animation: flip 0.34s ease-in-out;
+}
+@keyframes flip {
+  50% {
+    transform: perspective(900px) rotateY(90deg) scale(1.05);
+  }
+}
+.sticker.crying {
+  animation: cry 0.55s var(--spring);
+}
+@keyframes cry {
+  25% {
+    transform: scale(1.1, 0.9) rotate(-5deg);
+  }
+  55% {
+    transform: scale(0.94, 1.08) rotate(3deg);
+  }
+}
+
+.identity {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.75rem;
+}
+.identity h1,
+.identity h2 {
+  font: 400 clamp(1.75rem, calc(50cqi / var(--len)), 4rem)/1.05 var(--display);
+}
+.sub {
+  font-weight: 900;
+}
+.types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.actions button {
+  padding: 0.3rem 1rem;
+  border: 3px solid var(--on);
+  border-radius: 999px;
+  background: none;
+  color: var(--on);
+  font-weight: 900;
+  transition:
+    transform 0.2s var(--spring),
+    background-color 0.15s,
+    color 0.15s;
+}
+.actions button:hover {
+  transform: scale(1.05) rotate(-1.5deg);
+}
+.actions button[aria-pressed='true'] {
+  background: var(--on);
+  color: var(--flood);
+}
+.cry-failed {
+  margin-top: 0.4rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.back {
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
+  margin-top: 3.25rem;
+  font-weight: 900;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Info column ---------- */
+
+.info {
+  min-height: 0;
+  padding: 3.75rem 1.75rem 2rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.reveal > * {
+  animation: rise 0.4s ease-out both;
+}
+.reveal > :nth-child(2) {
+  animation-delay: 60ms;
+}
+.reveal > :nth-child(3) {
+  animation-delay: 110ms;
+}
+.reveal > :nth-child(n + 4) {
+  animation-delay: 150ms;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+.flavor {
+  max-width: 60ch;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+section {
+  margin-top: 2.25rem;
+}
+h3 {
+  margin-bottom: 0.75rem;
+  font: 400 1.5rem/1.1 var(--display);
+}
+
+.stats {
+  display: grid;
+  gap: 0.3rem;
+}
+.stats > div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  align-items: center;
+  column-gap: 0.75rem;
+}
+.stats dt {
+  font-weight: 700;
+}
+.stats dd {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+.value {
+  font-weight: 900;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.track {
+  display: block;
+  height: 8px;
+}
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(var(--w));
+  animation: grow 0.7s var(--spring) both;
+  animation-delay: calc(var(--i) * 45ms + 120ms);
+}
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.total {
+  margin-top: 0.25rem;
+}
+
+.abilities {
+  display: grid;
+  gap: 0.75rem;
+}
+.abilities strong {
+  font-weight: 900;
+}
+
+.evolution {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+.stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.step {
+  display: grid;
+  justify-items: center;
+  width: 7.25rem;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.25;
+}
+.step img {
+  --cut: 2px;
+  width: 6rem;
+  transition: transform 0.25s var(--spring);
+}
+.step:hover img {
+  transform: scale(1.12) rotate(-4deg);
+}
+.step strong {
+  margin-top: 0.15rem;
+  font-weight: 900;
+}
+.step small {
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.step.current strong {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+}
+
+.matchups {
+  display: grid;
+  gap: 0.75rem;
+}
+.matchups dt {
+  font-weight: 900;
+}
+.matchups dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+.match {
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  background: var(--flood);
+  color: var(--on);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.profile {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.75rem 1rem;
+}
+.profile dt {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.profile dd {
+  font-weight: 900;
+}
+.cap {
+  text-transform: capitalize;
+}
+
+.forms {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: 0.75rem;
+}
+.forms li {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.forms img {
+  --cut: 2px;
+  width: 5.5rem;
+}
+
+.skeleton {
+  display: grid;
+  gap: 0.9rem;
+}
+.skeleton span {
+  display: block;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.skeleton span:nth-child(1) {
+  width: 92%;
+}
+.skeleton span:nth-child(2) {
+  width: 78%;
+}
+.skeleton span:nth-child(3) {
+  width: 60%;
+  margin-top: 2rem;
+}
+.skeleton span:nth-child(4) {
+  width: 85%;
+}
+.skeleton span:nth-child(5) {
+  width: 70%;
+}
+
+.missing h2 {
+  font: 400 clamp(1.75rem, 5vw, 3rem)/1.1 var(--display);
+  overflow-wrap: anywhere;
+}
+.missing a {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 900;
+}
+
+/* ---------- Full page layout ---------- */
+
+.is-page {
+  min-height: 100svh;
+  height: auto;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+.is-page .plate {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 1.5rem 1.75rem 2rem;
+}
+.is-page .kana {
+  --size: min(calc(100svh / max(var(--n), 3) * 0.96), 30svh);
+}
+.is-page .sticker {
+  --cut: 7px;
+}
+.is-page .sticker img {
+  max-height: none;
+}
+.is-page .identity h1 {
+  font-size: clamp(2rem, calc(54cqi / var(--len)), 6rem);
+}
+.is-page .info {
+  padding: 5rem calc(var(--tabs-width) + 2rem) 3rem 2.5rem;
+  overflow: visible;
+}
+
+/* ---------- Narrow containers: popup or page on a phone ---------- */
+
+@container (max-width: 720px) {
+  .dossier,
+  .is-page {
+    display: block;
+    height: auto;
+    overflow-y: auto;
+    max-height: 100dvh;
+  }
+  .is-page {
+    max-height: none;
+    overflow: visible;
+  }
+  .plate,
+  .is-page .plate {
+    position: relative;
+    height: auto;
+    padding: 3.75rem 1.25rem 1.25rem;
+  }
+  .kana,
+  .is-page .kana {
+    --size: min(calc(26rem / max(var(--n), 3)), 28cqi);
+  }
+  .sticker {
+    flex: none;
+    height: min(78cqi, 46svh);
+  }
+  .sticker img {
+    height: 100%;
+  }
+  .identity h1,
+  .identity h2,
+  .is-page .identity h1 {
+    font-size: clamp(1.75rem, calc(120cqi / var(--len)), 4.5rem);
+  }
+  .info,
+  .is-page .info {
+    padding: 1.5rem 1.25rem 2.5rem;
+    overflow: visible;
+  }
+  .is-page .info {
+    padding-bottom: 5rem;
+  }
+  .stats > div {
+    grid-template-columns: 6rem 1fr;
+  }
+}
