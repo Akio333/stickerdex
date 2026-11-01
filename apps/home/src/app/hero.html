@@ -1,0 +1,84 @@
+<section
+  class="hero"
+  [class]="flood()"
+  [sdTilt]="9"
+  aria-labelledby="daily-name"
+>
+  @if (pokemon.value(); as p) {
+  <div class="kana" lang="ja" aria-hidden="true" [style.--n]="kana().length">
+    @for (char of kana(); track $index) {
+    <span [style.--i]="$index">{{ char }}</span>
+    }
+  </div>
+
+  <div class="copy">
+    <p class="daily">Pokémon of the day</p>
+    <time [attr.datetime]="isoDate">{{ dateLabel }}</time>
+    <p class="flavor">{{ p.flavor }}</p>
+    <div class="types">
+      @for (type of p.types; track type) {
+      <sd-type-tag [type]="type" />
+      }
+    </div>
+    <div class="actions">
+      <a class="primary" [sdStickerLink]="p.slug">See details</a>
+      @if (p.cry; as cry) {
+      <button type="button" (click)="playCry(cry)">Play cry</button>
+      }
+    </div>
+  </div>
+
+  <a
+    class="sticker-link"
+    [sdStickerLink]="p.slug"
+    [attr.aria-label]="p.name"
+    draggable="false"
+  >
+    <span class="sticker" [class.crying]="crying()">
+      <img
+        class="sd-art diecut"
+        [src]="art"
+        alt=""
+        width="475"
+        height="475"
+        draggable="false"
+        fetchpriority="high"
+      />
+      @if (p.rarity) {
+      <span class="foil" [style.--art]="'url(' + art + ')'"></span>
+      }
+    </span>
+  </a>
+
+  <h1 id="daily-name" class="name" [style.--len]="p.name.length">
+    {{ p.name }}
+  </h1>
+  <p class="meta">{{ number }} {{ p.genus }}</p>
+  } @else if (pokemon.error()) {
+  <div class="failed">
+    <h1>Today's Pokémon didn't load</h1>
+    <button type="button" (click)="pokemon.reload()">Try again</button>
+  </div>
+  }
+
+  <button
+    type="button"
+    class="scroll-cue"
+    aria-label="Scroll to more Pokémon"
+    (click)="scrollToNext()"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 4v15M5 12.5 12 19.5l7-7" />
+    </svg>
+  </button>
+</section>
