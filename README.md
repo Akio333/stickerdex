@@ -34,12 +34,13 @@ npm start
 
 Open <http://localhost:4200>. `npm start` serves the shell and all three remotes together.
 
-| Command                  | What it does                                           |
-| ------------------------ | ------------------------------------------------------ |
-| `npm start`              | Serves every app with live reload                      |
-| `npm run build`          | Builds production bundles to `dist/apps/<app>/browser` |
-| `npx nx serve <app>`     | Serves one app: `shell`, `home`, `search` or `dossier` |
-| `npx prettier --write .` | Formats the repo                                       |
+| Command                  | What it does                                                            |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `npm start`              | Serves every app with live reload                                       |
+| `npm run build:vercel`   | Builds and combines every app into `dist/vercel` for one Vercel project |
+| `npm run build`          | Builds production bundles to `dist/apps/<app>/browser`                  |
+| `npx nx serve <app>`     | Serves one app: `shell`, `home`, `search` or `dossier`                  |
+| `npx prettier --write .` | Formats the repo                                                        |
 
 Dev output goes to `dist/dev/`, so `npm run build` is safe while `npm start` is running.
 
@@ -98,7 +99,18 @@ extension from recolouring the site on top of its own dark theme.
 
 ## Deploying
 
-Each app is a static site in `dist/apps/<app>/browser`, and can be hosted and released separately.
+### Vercel, as one project
+
+Import the repository with its root as the root directory. `vercel.json` sets the framework, build command and output
+folder, and overrides the Angular preset, which can't find the output of a multi-app workspace.
+
+`npm run build:vercel` builds every app, then `tools/assemble-vercel.mjs` combines them into `dist/vercel`: the shell at
+the root and each remote under `/remotes/<name>/`. Remotes are still loaded at runtime. Because the paths are
+same-origin, no CORS setup is needed and preview deployments work.
+
+### Hosting each app separately
+
+To release remotes independently, host each `dist/apps/<app>/browser` folder as its own static site:
 
 1. Set the remote URLs in `federation.manifest.json` in the shell's output. No rebuild is needed. The source copy is
    `apps/shell/public/federation.manifest.json`, which points at localhost.

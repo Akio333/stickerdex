@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nx run-many -t serve -p shell home search dossier --parallel=4 --tui=false",
-    "build": "nx run-many -t build -p shell home search dossier"
+    "build": "nx run-many -t build -p shell home search dossier",
+    "build:vercel": "npm run build && node tools/assemble-vercel.mjs"
   },
   "dependencies": {
     "@angular/animations": "21.2.25",
@@ -36,5 +37,8 @@
     "prettier": "3.9.10",
     "typescript": "5.9.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+  }
 }
