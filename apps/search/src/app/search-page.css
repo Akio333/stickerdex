@@ -1,0 +1,178 @@
+:host {
+  display: block;
+  --flood: var(--print);
+  --on: var(--seal);
+}
+
+.band {
+  padding: 5rem calc(var(--tabs-width) + 1.5rem) 1.5rem 1.5rem;
+  background: var(--flood);
+  color: var(--on);
+  transition:
+    background-color 0.45s var(--glide),
+    color 0.2s;
+}
+
+.term {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  caret-color: var(--marker);
+  font: 400 clamp(2.25rem, 8.5vw, 7rem)/1.15 var(--display);
+  appearance: none;
+  outline: none;
+}
+.term::placeholder {
+  color: inherit;
+  opacity: 0.45;
+}
+.term::-webkit-search-cancel-button {
+  display: none;
+}
+/* The caret alone is too faint at this size to count as visible focus. */
+.term:focus-visible {
+  box-shadow: 0 4px 0 0 currentColor;
+  border-radius: 0;
+}
+
+.facets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+.facet,
+.clear {
+  padding: 0.35rem 1.1rem;
+  border: 3px solid currentColor;
+  border-radius: 999px;
+  background: none;
+  font-weight: 900;
+  color: inherit;
+  transition:
+    transform 0.2s var(--spring),
+    background-color 0.15s,
+    color 0.15s;
+}
+.facet:hover,
+.clear:hover {
+  transform: scale(1.05);
+}
+.facet.is-set,
+.facet[aria-expanded='true'] {
+  background: var(--on);
+  color: var(--flood);
+  border-color: var(--on);
+}
+.facet[aria-expanded='true'] {
+  transform: translateY(2px);
+}
+.clear {
+  border-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--glide);
+}
+.panel.open {
+  grid-template-rows: 1fr;
+}
+/* Clips only for the open animation. The insets leave room for outlines around the chips. */
+.panel-inner {
+  min-height: 0;
+  margin-inline: -0.75rem;
+  overflow: hidden;
+}
+.panel ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 1rem 0.75rem 0.75rem;
+}
+
+.option {
+  padding: 0.25rem 0.9rem;
+  border: 2px solid transparent;
+  border-radius: 999px 999px 999px 0.3rem;
+  background: var(--chip);
+  color: var(--chip-text);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  transition: transform 0.18s var(--spring);
+}
+.option.typed {
+  background: var(--flood);
+  color: var(--on);
+  border-color: var(--seal);
+}
+.option:hover {
+  transform: rotate(-3deg) scale(1.07);
+}
+.option[aria-pressed='true'] {
+  outline: 3px solid var(--on);
+  outline-offset: 2px;
+  transform: scale(1.07);
+}
+
+.sheet {
+  padding: 1.5rem calc(var(--tabs-width) + 1.5rem) 3rem 1.5rem;
+}
+.count {
+  min-height: 1.6em;
+  font-weight: 900;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(46%, 11rem), 1fr));
+  gap: 2rem 0.75rem;
+  margin-top: 1rem;
+}
+/* Each sticker pressed on as results arrive; only new ones run this, since kept items are reused. */
+.grid li {
+  animation: press 0.42s var(--spring) both;
+  animation-delay: calc(var(--i) * 22ms);
+}
+@keyframes press {
+  from {
+    opacity: 0;
+    transform: scale(1.35) rotate(5deg);
+  }
+}
+
+.sentinel {
+  height: 1px;
+}
+
+.message {
+  padding: 3rem 0;
+}
+.message h2 {
+  font: 400 clamp(2rem, 6vw, 4rem)/1.1 var(--display);
+}
+.message button {
+  margin-top: 1rem;
+  padding: 0.55rem 1.3rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--on-ink);
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .band {
+    padding: 4.25rem 1.25rem 1.25rem;
+  }
+  .sheet {
+    padding: 1.25rem 1.25rem 2rem;
+  }
+}

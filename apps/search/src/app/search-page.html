@@ -1,0 +1,83 @@
+<div class="band" [class]="flood()">
+  <h1 class="visually-hidden">Search Pokémon</h1>
+  <input
+    class="term"
+    type="search"
+    aria-label="Search by name or number"
+    placeholder="Search by name"
+    autocomplete="off"
+    spellcheck="false"
+    enterkeyhint="search"
+    [value]="term()"
+    (input)="onTerm($any($event.target).value)"
+  />
+
+  <div class="facets">
+    @for (facet of facets; track facet.key) {
+    <button
+      type="button"
+      class="facet"
+      [class.is-set]="valueOf(facet.key)"
+      [attr.aria-expanded]="openFacet() === facet.key"
+      (click)="toggleFacet(facet.key)"
+    >
+      {{ facet.label }}@if (labelOf(facet); as label) {<span>: {{ label }}</span
+      >}
+    </button>
+    } @if (hasFilters()) {
+    <button type="button" class="clear" (click)="clear()">Clear filters</button>
+    }
+  </div>
+
+  @for (facet of facets; track facet.key) {
+  <div
+    class="panel"
+    [class.open]="openFacet() === facet.key"
+    [attr.inert]="openFacet() === facet.key ? null : ''"
+  >
+    <div class="panel-inner">
+      <ul [attr.aria-label]="facet.label">
+        @for (option of facet.options; track option.value) {
+        <li>
+          <button
+            type="button"
+            class="option"
+            [class]="facet.key === 'type' ? 'flood-' + option.value : ''"
+            [class.typed]="facet.key === 'type'"
+            [attr.aria-pressed]="valueOf(facet.key) === option.value"
+            (click)="choose(facet.key, option.value)"
+          >
+            {{ option.label }}
+          </button>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+  }
+</div>
+
+<section class="sheet" aria-label="Results">
+  <p class="count" aria-live="polite">
+    @if (results(); as list) { @if (!failed()) { {{ list.length }} Pokémon } }
+  </p>
+
+  @if (failed()) {
+  <div class="message">
+    <h2>PokéAPI didn't respond</h2>
+    <button type="button" (click)="retry()">Try again</button>
+  </div>
+  } @else if (!loading() && results()?.length === 0) {
+  <div class="message">
+    <h2>No Pokémon match</h2>
+    <button type="button" (click)="clear()">Clear filters</button>
+  </div>
+  }
+
+  <ul class="grid">
+    @for (p of visible(); track p.id; let i = $index) {
+    <li [style.--i]="i % 12"><sd-seal [pokemon]="p" /></li>
+    }
+  </ul>
+  <div #sentinel class="sentinel"></div>
+</section>
