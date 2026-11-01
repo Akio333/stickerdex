@@ -1,0 +1,337 @@
+:root {
+  color-scheme: light dark;
+
+  /* Follow the page's theme. */
+  --liner: light-dark(#e9eefb, #100e33);
+  --ink: light-dark(#16127a, #e6e8ff);
+  --on-ink: light-dark(#ffffff, #100e33);
+  --spread: light-dark(#0e0a52, #1d1880);
+  --chip: light-dark(#ffffff, rgb(0 0 0 / 0.35));
+  --chip-text: light-dark(#16127a, #ffffff);
+  --scrim: light-dark(rgb(14 10 82 / 0.72), rgb(3 2 20 / 0.8));
+  --overprint: light-dark(rgb(22 18 122 / 0.24), rgb(0 0 0 / 0.26));
+  --cut-shadow: light-dark(rgb(22 18 122 / 0.28), rgb(0 0 0 / 0.55));
+  --ghost: light-dark(0.22, 0.5);
+
+  /* The same in both themes: printed sticker parts and the binder tabs. */
+  --print: #16127a;
+  --seal: #ffffff;
+  --marker: #ff4a8d;
+
+  /* Type inks, deepened at night so a full-page flood doesn't glare. */
+  --t-normal: light-dark(#c9c3a3, #5e5a42);
+  --t-fire: light-dark(#ff5a1f, #b13a0c);
+  --t-water: light-dark(#0f6bea, #0c55c0);
+  --t-electric: light-dark(#ffd400, #7f6a00);
+  --t-grass: light-dark(#2fbf4a, #187a2e);
+  --t-ice: light-dark(#7fe3f0, #0f6f7e);
+  --t-fighting: light-dark(#d6263a, #a81d2d);
+  --t-poison: light-dark(#9a35c9, #7a2ba3);
+  --t-ground: light-dark(#d9a441, #80601c);
+  --t-flying: light-dark(#8fa8ff, #4a5fc4);
+  --t-psychic: light-dark(#ff4f9a, #b8246c);
+  --t-bug: light-dark(#a3c211, #5c7008);
+  --t-rock: light-dark(#b39c5f, #6f5f33);
+  --t-ghost: light-dark(#5a3fa8, #4c3599);
+  --t-dragon: light-dark(#3c2be0, #3324b8);
+  --t-dark: light-dark(#3a2e39, #3a2e39);
+  --t-steel: light-dark(#9db2c4, #4c6174);
+  --t-fairy: light-dark(#ff9fd6, #a63f86);
+
+  --display:
+    'Dela Gothic One', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  --body:
+    'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
+
+  --tabs-width: 3rem;
+  --cut: 3px;
+  --spring: cubic-bezier(0.3, 1.5, 0.4, 1);
+  --glide: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+/* Set before first paint by the script in index.html when the visitor has chosen a theme. */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+}
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--liner);
+  color: var(--ink);
+  font: 500 1.0625rem/1.55 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+  padding: 0;
+}
+ol,
+ul {
+  list-style: none;
+}
+a {
+  color: inherit;
+}
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--on-ink);
+}
+
+/* Type floods. `--on` is the text colour that clears 4.5:1 against that flood, in either theme. */
+.flood-normal {
+  --flood: var(--t-normal);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-fire {
+  --flood: var(--t-fire);
+  --on: light-dark(#120e5c, #ffffff);
+}
+.flood-water {
+  --flood: var(--t-water);
+  --on: light-dark(#ffffff, #ffffff);
+}
+.flood-electric {
+  --flood: var(--t-electric);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-grass {
+  --flood: var(--t-grass);
+  --on: light-dark(#120e5c, #ffffff);
+}
+.flood-ice {
+  --flood: var(--t-ice);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-fighting {
+  --flood: var(--t-fighting);
+  --on: light-dark(#ffffff, #ffffff);
+}
+.flood-poison {
+  --flood: var(--t-poison);
+  --on: light-dark(#ffffff, #ffffff);
+}
+.flood-ground {
+  --flood: var(--t-ground);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-flying {
+  --flood: var(--t-flying);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-psychic {
+  --flood: var(--t-psychic);
+  --on: light-dark(#120e5c, #ffffff);
+}
+.flood-bug {
+  --flood: var(--t-bug);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-rock {
+  --flood: var(--t-rock);
+  --on: light-dark(#120e5c, #ffffff);
+}
+.flood-ghost {
+  --flood: var(--t-ghost);
+  --on: light-dark(#ffffff, #ffffff);
+}
+.flood-dragon {
+  --flood: var(--t-dragon);
+  --on: light-dark(#ffffff, #ffffff);
+}
+.flood-dark {
+  --flood: var(--t-dark);
+  --on: light-dark(#ffffff, #ffffff);
+}
+.flood-steel {
+  --flood: var(--t-steel);
+  --on: light-dark(#16127a, #ffffff);
+}
+.flood-fairy {
+  --flood: var(--t-fairy);
+  --on: light-dark(#16127a, #ffffff);
+}
+
+/* The die-cut edge: a white contour that follows the artwork's alpha channel. */
+.diecut {
+  filter: drop-shadow(var(--cut) 0 0 var(--seal))
+    drop-shadow(calc(var(--cut) * -1) 0 0 var(--seal))
+    drop-shadow(0 var(--cut) 0 var(--seal))
+    drop-shadow(0 calc(var(--cut) * -1) 0 var(--seal))
+    drop-shadow(0 4px 6px var(--cut-shadow));
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Foil: an iridescent layer masked to the artwork, moved by the pointer through --mx and --my. */
+.foil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mask: var(--art) center / contain no-repeat;
+  background: conic-gradient(
+    from calc(var(--mx, 50) * 3.6deg) at calc(var(--mx, 50) * 1%)
+      calc(var(--my, 50) * 1%),
+    #ff2e7e,
+    #ffd400,
+    #38f2c6,
+    #7a6bff,
+    #ff2e7e
+  );
+  mix-blend-mode: color-dodge;
+  opacity: 0.14;
+  transition: opacity 0.25s;
+}
+
+/* ---------- View transitions ---------- */
+
+::view-transition-group(sd-tabs),
+::view-transition-group(sd-wordmark) {
+  animation: none;
+  z-index: 5;
+}
+::view-transition-old(sd-tabs),
+::view-transition-new(sd-tabs),
+::view-transition-old(sd-wordmark),
+::view-transition-new(sd-wordmark) {
+  animation: none;
+}
+::view-transition-old(sd-tabs),
+::view-transition-old(sd-wordmark) {
+  display: none;
+}
+
+/* Page to page: the next page turns in from the binder edge. */
+html[data-vt='page']::view-transition-old(root) {
+  animation: page-under 0.55s var(--glide) both;
+}
+html[data-vt='page']::view-transition-new(root) {
+  animation: page-over 0.55s var(--glide) both;
+  z-index: 1;
+}
+@keyframes page-under {
+  to {
+    transform: translateX(-14%);
+    filter: brightness(0.75);
+  }
+}
+@keyframes page-over {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Switching theme: the new theme spreads out from the button. */
+html[data-vt='theme']::view-transition-old(root) {
+  animation: none;
+}
+html[data-vt='theme']::view-transition-new(root) {
+  animation: panel-reveal 0.55s cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+
+/* Popup: colour floods out of the sticker's disc while the sticker itself flies across. */
+html[data-vt='open']::view-transition-new(sd-panel) {
+  animation: panel-reveal 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+html[data-vt='close']::view-transition-old(sd-panel) {
+  animation: panel-reveal 0.38s cubic-bezier(0.5, 0, 0.7, 0.4) reverse both;
+}
+@keyframes panel-reveal {
+  from {
+    clip-path: circle(0 at var(--sd-reveal-x, 50%) var(--sd-reveal-y, 50%));
+  }
+  to {
+    clip-path: circle(
+      160vmax at var(--sd-reveal-x, 50%) var(--sd-reveal-y, 50%)
+    );
+  }
+}
+
+::view-transition-group(sd-art) {
+  animation-duration: 0.6s;
+  animation-timing-function: var(--spring);
+  z-index: 3;
+}
+html[data-vt='close']::view-transition-group(sd-art) {
+  animation-duration: 0.42s;
+  animation-timing-function: cubic-bezier(0.3, 1.2, 0.5, 1);
+}
+::view-transition-old(sd-art),
+::view-transition-new(sd-art) {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  mix-blend-mode: normal;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --tabs-width: 0px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
