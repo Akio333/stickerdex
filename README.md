@@ -113,7 +113,22 @@ Each app is a static site in `dist/apps/<app>/browser`, and can be hosted and re
   by it. It appears on the details view instead.
 - The sticker-to-popup animation needs the View Transitions API. Without it the popup uses a simpler fade and scale.
 
-## Credits
+## License
 
-Data and artwork come from [PokéAPI](https://pokeapi.co/). Pokémon and character names are trademarks of Nintendo.
-This is an unofficial fan project.
+The code in this repository is available under the [MIT License](LICENSE).
+
+That license does not cover Pokémon content. Pokémon and character names are trademarks of Nintendo, and the artwork
+and cries are copyright The Pokémon Company. The app loads them at runtime from PokéAPI's
+[sprites](https://github.com/PokeAPI/sprites) and [cries](https://github.com/PokeAPI/cries) repositories, and the
+images in `docs/screenshots` show them. This is an unofficial fan project, not affiliated with or endorsed by Nintendo
+or The Pokémon Company.
+
+Third-party software, used under its own license:
+
+| Used                                        | License      | How it's used                  |
+| ------------------------------------------- | ------------ | ------------------------------ |
+| Angular, Native Federation, es-module-shims | MIT          | Included in production bundles |
+| RxJS                                        | Apache-2.0   | Included in production bundles |
+| tslib                                       | 0BSD         | Included in production bundles |
+| Dela Gothic One, Zen Maru Gothic            | SIL OFL 1.1  | Loaded from Google Fonts       |
+| [PokéAPI](https://pokeapi.co/)              | BSD-3-Clause | Data, requested at runtime     |

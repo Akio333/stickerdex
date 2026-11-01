@@ -35,5 +35,6 @@
     "nx": "24.0.3",
     "prettier": "3.9.10",
     "typescript": "5.9.3"
-  }
+  },
+  "license": "MIT"
 }
