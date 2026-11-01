@@ -1,0 +1,39 @@
+{
+  "name": "pokemon-mfe",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nx run-many -t serve -p shell home search dossier --parallel=4 --tui=false",
+    "build": "nx run-many -t build -p shell home search dossier"
+  },
+  "dependencies": {
+    "@angular/animations": "21.2.25",
+    "@angular/common": "21.2.25",
+    "@angular/compiler": "21.2.25",
+    "@angular/core": "21.2.25",
+    "@angular/platform-browser": "21.2.25",
+    "@angular/router": "21.2.25",
+    "@softarc/native-federation-node": "^3.3.4",
+    "es-module-shims": "^1.5.12",
+    "rxjs": "7.8.2",
+    "tslib": "2.9.1"
+  },
+  "devDependencies": {
+    "@angular-architects/native-federation": "21.2.6",
+    "@angular-devkit/build-angular": "21.2.29",
+    "@angular-devkit/core": "21.2.29",
+    "@angular-devkit/schematics": "21.2.29",
+    "@angular/build": "21.2.29",
+    "@angular/cli": "21.2.29",
+    "@angular/compiler-cli": "21.2.25",
+    "@nx/angular": "24.0.3",
+    "@nx/js": "24.0.3",
+    "@nx/web": "24.0.3",
+    "@nx/workspace": "24.0.3",
+    "@schematics/angular": "21.2.29",
+    "@swc/helpers": "~0.5.18",
+    "nx": "24.0.3",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3"
+  }
+}
