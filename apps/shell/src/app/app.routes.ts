@@ -35,6 +35,10 @@ export const appRoutes: Routes = [
     loadComponent: loadDossierOverlay,
   },
   // Prefix match, not 'full': a full match would reject "/(overlay:...)" and unmount the page under a popup.
-  { path: '', title: 'Stickerdex', loadChildren: remoteRoutes('home') },
+  {
+    path: '',
+    title: 'Stickerdex: Pokémon sticker book',
+    loadChildren: remoteRoutes('home'),
+  },
   { path: '**', redirectTo: '' },
 ];

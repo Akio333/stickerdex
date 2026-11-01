@@ -1,0 +1,135 @@
+<!doctype html>
+<!--
+  Source for apps/shell/public/og-image.png (1200x630). To regenerate, from the repo root:
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
+    --force-device-scale-factor=1 --window-size=1200,630 --timeout=8000 \
+    --screenshot=apps/shell/public/og-image.png "file://$PWD/tools/og-image.html"
+  Chrome may keep running after it prints "bytes written"; stop it with Ctrl-C.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stickerdex social card</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@900&display=block"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        background: #16127a;
+        color: #ffffff;
+      }
+      .kana {
+        position: absolute;
+        top: 8px;
+        right: 14px;
+        font:
+          400 152px/1 'Dela Gothic One',
+          sans-serif;
+        color: rgb(255 255 255 / 0.09);
+        writing-mode: vertical-rl;
+      }
+      .seal {
+        position: absolute;
+        width: var(--size);
+        height: var(--size);
+        rotate: var(--spin);
+      }
+      .seal::before {
+        content: '';
+        position: absolute;
+        inset: 9%;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%);
+      }
+      .seal img {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(var(--cut) 0 0 #fff)
+          drop-shadow(calc(var(--cut) * -1) 0 0 #fff)
+          drop-shadow(0 var(--cut) 0 #fff)
+          drop-shadow(0 calc(var(--cut) * -1) 0 #fff)
+          drop-shadow(0 8px 12px rgb(0 0 0 / 0.4));
+      }
+      h1 {
+        position: absolute;
+        left: 42px;
+        bottom: 34px;
+        font:
+          400 154px/1 'Dela Gothic One',
+          sans-serif;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="kana" lang="ja" aria-hidden="true">シール帖</div>
+
+    <div
+      class="seal"
+      style="
+        --size: 300px;
+        --spin: -7deg;
+        --cut: 4px;
+        --a: #5a3fa8;
+        --b: #9a35c9;
+        left: 170px;
+        top: 26px;
+      "
+    >
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png"
+        alt=""
+      />
+    </div>
+    <div
+      class="seal"
+      style="
+        --size: 340px;
+        --spin: 5deg;
+        --cut: 5px;
+        --a: #ff5a1f;
+        --b: #8fa8ff;
+        left: 760px;
+        top: 40px;
+      "
+    >
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+        alt=""
+      />
+    </div>
+    <div
+      class="seal"
+      style="
+        --size: 400px;
+        --spin: -3deg;
+        --cut: 6px;
+        --a: #ffd400;
+        --b: #ffd400;
+        left: 420px;
+        top: 10px;
+      "
+    >
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+        alt=""
+      />
+    </div>
+
+    <h1>Stickerdex</h1>
+  </body>
+</html>

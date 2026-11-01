@@ -123,6 +123,9 @@ To release remotes independently, host each `dist/apps/<app>/browser` folder as 
 - PokéAPI has no habitat data after generation 3, so that filter returns no later species.
 - Search filters don't include the official category (such as "Mouse Pokémon"), because the API can't list species
   by it. It appears on the details view instead.
+- Link previews show the same card for every URL, because the site is static and scrapers don't run JavaScript. The
+  card's source is `tools/og-image.html`, and its absolute URL in `apps/shell/src/index.html` needs updating if the
+  production domain changes.
 - The sticker-to-popup animation needs the View Transitions API. Without it the popup uses a simpler fade and scale.
 
 ## License
