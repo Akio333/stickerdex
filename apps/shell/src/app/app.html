@@ -1,0 +1,31 @@
+<a class="wordmark" routerLink="/">Stickerdex</a>
+
+<nav class="tabs" aria-label="Sections">
+  <a
+    routerLink="/"
+    [class.active]="section() === '/'"
+    [attr.aria-current]="section() === '/' ? 'page' : null"
+    >Today</a
+  >
+  <a
+    routerLink="/search"
+    [class.active]="section() === '/search'"
+    [attr.aria-current]="section() === '/search' ? 'page' : null"
+    >Search</a
+  >
+  <button
+    type="button"
+    [attr.aria-label]="'Switch to ' + (theme.current() === 'dark' ? 'light' : 'dark') + ' mode'"
+    (click)="theme.toggle($event)"
+  >
+    {{ theme.current() === 'dark' ? 'Light' : 'Dark' }}
+  </button>
+</nav>
+
+<main><router-outlet /></main>
+<router-outlet name="overlay" />
+
+<footer>
+  Data from <a href="https://pokeapi.co/" rel="noopener">PokéAPI</a>. Pokémon
+  and character names are trademarks of Nintendo.
+</footer>

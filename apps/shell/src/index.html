@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stickerdex</title>
+    <base href="/" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="darkreader-lock" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#e9eefb"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#100e33"
+    />
+    <script>
+      // Runs before first paint so a saved theme never flashes the other one.
+      try {
+        var savedTheme = localStorage.getItem('stickerdex.theme');
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          document.documentElement.dataset.theme = savedTheme;
+          document
+            .querySelectorAll('meta[name="theme-color"]')
+            .forEach(function (meta) {
+              meta.content = savedTheme === 'dark' ? '#100e33' : '#e9eefb';
+            });
+        }
+      } catch (e) {}
+    </script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://pokeapi.co" />
+    <link rel="preconnect" href="https://raw.githubusercontent.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    />
+  </head>
+  <body>
+    <sd-root></sd-root>
+  </body>
+</html>
